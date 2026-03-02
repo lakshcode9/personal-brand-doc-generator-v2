@@ -3,8 +3,8 @@
 
 ![Content Engine Hero](docs/assets/setup_step1.png)
 
-![GitHub license](https://img.shields.io/github/license/lakshcode9/personal-brand-doc-generator)
-![GitHub stars](https://img.shields.io/github/stars/lakshcode9/personal-brand-doc-generator)
+![GitHub license](https://img.shields.io/github/license/lakshcode9/personal-brand-doc-generator-v2)
+![GitHub stars](https://img.shields.io/github/stars/lakshcode9/personal-brand-doc-generator-v2)
 
 ---
 
