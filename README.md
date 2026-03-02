@@ -1,5 +1,5 @@
-# ⚡ Content Engine // Brand Architecture
-> **The AI-powered command center for personal branding and viral content strategy.**
+# CONTENT ENGINE // BRAND ARCHITECTURE
+> **A streamlined framework for personal branding and viral content strategy.**
 
 ![Content Engine Hero](docs/assets/setup_step1.png)
 
@@ -8,147 +8,149 @@
 
 ---
 
-## 🎯 What is Content Engine?
-Content Engine is a dynamic framework designed to help creators and entrepreneurs build a data-driven personal brand. It bridges the gap between **raw social data** and **ready-to-post content scripts** by leveraging AI to analyze what actually works in your niche.
+## Overview
+Content Engine is an automated framework designed to help creators and entrepreneurs build a data-driven personal brand. It bridges the gap between raw social data and production-ready content scripts by analyzing performance trends within specific niches.
 
 ### Modular Architecture
 ![Analysis Preview](docs/assets/analysis_preview.png)
 
-### Core Features:
-- 🛠️ **Interactive Onboarding**: A custom HTML questionnaire to define your brand identity.
-- 📉 **Viral Research**: Automated extraction of top-performing content across YouTube, Instagram, and LinkedIn.
-- ✍️ **AI Scripting**: Personalized content scripts that maintain your unique brand voice.
-- 🖥️ **Premium Dashboard**: A sleek, dark-mode visual interface to manage your brand strategy.
+### Core Capabilities
+- **Interactive Onboarding**: Custom interface to define brand identity and core positioning.
+- **Viral Research**: Automated data extraction from YouTube, Instagram, and LinkedIn.
+- **Strategic Scripting**: Logic-driven content scripts mapped to successful viral hooks.
+- **Reporting Dashboard**: Visual interface for managing and reviewing brand strategy.
 
 ---
 
-##  Final Output Previews
+## Output Previews
 
-### Brand Onboarding
+### Onboarding Interface
 ![Step 1: Core Foundation](docs/assets/setup_step1.png)
-*Step 1: Define your brand's core foundation and niche.*
+*Initial phase: Defining brand foundation and market niche.*
 
-### AI Strategy Engine
+### Strategy Generation
 ![Step 2: AI Prompt Bridge](docs/assets/setup_step2.png)
-*Step 2: Use the built-in AI Prompt Bridge to generate your target personas and keywords.*
+*Configuration phase: Generating target personas and keyword maps.*
 
-### Strategy Dashboard
+### Analytical Dashboard
 ![Dashboard Locked](docs/assets/dashboard_locked.png)
-*The Dashboard locks until your configuration is finalized.*
+*The centralized dashboard for strategy management.*
 
-### Viral Research Report
+### Research Analysis
 ![Viral Research Report](docs/assets/analysis_preview.png)
-*Detailed analysis of viral content across social platforms.*
+*Detailed performance analysis across primary social platforms.*
 
-### AI-Generated Content Scripts
+### Content Deliverables
 ![Generated Scripts](docs/assets/scripts_preview.png)
-*Personalized scripts mapped to successful viral hooks.*
+*Script outputs mapped to high-performance content structures.*
 
 ---
 
-## 🔮 The AI Strategy Bridge
-To make this a truly "blank slate" system, the onboarding process includes a **Direct AI Bridge**. 
+## Operation Workflow
+The system utilizes a structured onboarding process to ensure configuration accuracy:
 
-1. **Input Your Niche**: Tell the engine what you do.
-2. **Copy the Prompt**: The engine generates a specialized prompt for you.
-3. **Prompt any AI**: Paste that prompt into ChatGPT, Claude, or Gemini.
-4. **Import JSON**: Paste the AI's response back into the questionnaire.
-5. **Auto-Configure**: The engine instantly updates your `brand_config.json` with target personas, keywords, and competitor profiles.
-
----
-
-## 🛠️ Tech Stack
-- **Dashboard**: Vanilla HTML5, CSS3 (Glassmorphism), JavaScript (Data-Driven).
-- **Automation**: Python 3.10+ (Data Processing & AI Orchestration).
-- **AI**: OpenAI GPT-4 / Claude 3.5 Sonnet.
-- **Data**: YouTube Data API v3, Instagram Graph API, LinkedIn API.
+1. **Niche Definition**: Define the specific area of focus.
+2. **Prompt Generation**: The system provides a specialized configuration prompt.
+3. **External Analysis**: Utilize the prompt with an LLM of choice (GPT-4, Claude 3.5).
+4. **Data Import**: Re-import the structured response into the interface.
+5. **System Synchronization**: Local configuration updates automatically across all modules.
 
 ---
 
-## 🚀 Quick Start (In 5 Minutes)
+## Technical Stack
+- **Interface**: HTML5, CSS3, JavaScript.
+- **Automations**: Python 3.10+.
+- **Intelligence**: Integrated Large Language Models.
+- **Data Sources**: Platform APIs and custom extraction logic.
 
-### 1. Define Your Brand
-Open `brand_questionnaire.html` in your browser. Complete the steps to generate your `brand_config.json`.
+---
 
-### 2. Install Dependencies
+## Quick Start
+
+### 1. Configuration
+Open `brand_questionnaire.html` in a browser to generate the local `brand_config.json`.
+
+### 2. Environment Setup
+Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Setup Environment
-Create a `.env` file in the root directory:
+### 3. Credentialing
+Configure the `.env` file with the necessary access tokens:
 ```env
-OPENAI_API_KEY=sk-...
-YOUTUBE_API_KEY=...
-INSTAGRAM_ACCESS_TOKEN=...
+OPENAI_API_KEY=your_key_here
+YOUTUBE_API_KEY=your_key_here
+INSTAGRAM_ACCESS_TOKEN=your_key_here
 ```
 
-### 4. Run the Engine
+### 4. Execution
+Run the orchestrator to begin research and script generation:
 ```bash
-# Research trending content
+# Execute viral research module
 python execution/viral_research.py
 
-# Generate report and scripts
+# Compile deliverables and dashboard
 python execution/compile_deliverable.py
 ```
 
-### 5. View Dashboard
-Open `index.html` to see your new strategy alive!
+### 5. Access
+Launch `index.html` to view the finalized strategy.
 
 ---
 
-## 📊 System Workflow
+## System Architecture
 ```mermaid
 graph TD
-    A[Brand Questionnaire] -->|Generates| B(brand_config.json)
-    B --> C{Execution Module}
-    C -->|Research| D[Viral Data Analysis]
-    C -->|Scripting| E[Personalized Content]
-    D & E -->|Compile| F[Dashboard Report]
+    A[Onboarding Module] -->|Configuration| B(brand_config.json)
+    B --> C{Execution Engine}
+    C -->|Analysis| D[Viral Data Research]
+    C -->|Production| E[Content Scripting]
+    D & E -->|Compilation| F[Dashboard Interface]
     F -->|Render| G[index.html]
 ```
 
 ---
 
-## 🔑 API Setup Guide
+## API Requirements
 
-| Platform | Difficulty | Where to Get |
+| Module | Integration | Access Point |
 | :--- | :--- | :--- |
-| **YouTube** | Easy | [Google Cloud Console](https://console.cloud.google.com/) |
-| **OpenAI** | Easy | [OpenAI Platform](https://platform.openai.com/) |
-| **Instagram** | Medium | [Meta for Developers](https://developers.facebook.com/) |
-| **LinkedIn** | Hard | [LinkedIn Developer Portal](https://developer.linkedin.com/) |
+| YouTube | Platform API | Google Cloud Console |
+| Intelligence | API Key | OpenAI / Anthropic |
+| Instagram | Graph API | Meta for Developers |
+| LinkedIn | Custom / API | LinkedIn Developer Portal |
 
 > [!TIP]
-> For LinkedIn and Instagram, you can use third-party scraping bridges if official API access is delayed.
+> Third-party bridges can be utilized for platform access when official API provisioning is pending.
 
 ---
 
-## 📂 Project Structure
+## Directory Structure
 ```text
-├── brand_questionnaire.html  # Onboarding Interface
-├── index.html                # Main Dashboard
-├── brand_config.json         # Your Brand Identity (Generated)
-├── execution/                # Core Python Orchestrators
-├── SKILLS/                   # Modular AI Capabilities
-└── examples/                 # Reference Data & Templates
+├── brand_questionnaire.html  # Configuration Interface
+├── index.html                # Management Dashboard
+├── brand_config.json         # Local Brand Identity
+├── execution/                # System Orchestrators
+├── SKILLS/                   # Modular Capabilities
+└── examples/                 # Reference Templates
 ```
 
 ---
 
-## 🤝 Contributing
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+## Contributing
+Project improvements and feature additions are welcome.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## ⚖️ License
-Distributed under the MIT License. See `LICENSE` for more information.
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/improvement`).
+3. Commit changes (`git commit -m 'Initial descriptive message'`).
+4. Push to the branch (`git push origin feature/improvement`).
+5. Open a Pull Request.
 
 ---
-**Built with ❤️ for Personal Brand Architects.**
+
+## License
+Distributed under the MIT License. Reference `LICENSE` for details.
+
+---
+**Dedicated to Personal Brand Architects.**
