@@ -1,0 +1,57 @@
+{
+    "brand": {
+        "name": "Your Brand Name",
+        "website": "yourbrand.com",
+        "tagline": "Your unique value proposition here",
+        "focus": "e.g., AI Automation, Fitness for Busy Pros, SaaS Marketing"
+    },
+    "strategy": {
+        "target_audience": "Describe your ideal audience",
+        "core_offers": [
+            "Offer 1",
+            "Offer 2"
+        ],
+        "voice": "The tone of your brand (e.g., Authoritative, Minimalist, Energetic)"
+    },
+    "personas": [
+        {
+            "id": "persona_1",
+            "name": "Persona 1 Name",
+            "description": "Who they are and what they care about",
+            "youtube_keywords": [
+                "keyword1",
+                "keyword2"
+            ],
+            "instagram_hashtags": [
+                "hashtag1",
+                "hashtag2"
+            ],
+            "linkedin_profiles": [
+                "https://linkedin.com/in/profile1"
+            ]
+        },
+        {
+            "id": "persona_2",
+            "name": "Persona 2 Name",
+            "description": "Who they are and what they care about",
+            "youtube_keywords": [
+                "keyword3",
+                "keyword4"
+            ],
+            "instagram_hashtags": [
+                "hashtag3",
+                "hashtag4"
+            ],
+            "linkedin_profiles": [
+                "https://linkedin.com/in/profile2"
+            ]
+        }
+    ],
+    "automation": {
+        "platforms": [
+            "youtube",
+            "instagram",
+            "linkedin"
+        ]
+    }
+}

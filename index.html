@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Engine // Architecture Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --surface: #141416;
+            --accent: #ceff00;
+            --text-main: #ffffff;
+            --text-dim: #88888e;
+            --border: #2a2a2e;
+            --grid-size: 40px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: "Outfit", sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, var(--border) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Sidebar */
+        aside {
+            background: rgba(10, 10, 11, 0.95);
+            border-right: 1px solid var(--border);
+            padding: 40px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+        }
+
+        .brand-header {
+            margin-bottom: 40px;
+        }
+
+        .brand-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+        }
+
+        .brand-title span {
+            color: var(--accent);
+            display: block;
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-top: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.3em;
+            margin: 30px 0 15px;
+        }
+
+        .persona-card {
+            background: var(--surface);
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+
+        .persona-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .persona-desc {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 60px;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 12px 25px;
+            font-family: 'Syne', sans-serif;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-btn.active {
+            border-color: var(--accent);
+            color: var(--bg);
+            background: var(--accent);
+        }
+
+        .content-prose {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 50px;
+            position: relative;
+        }
+
+        .content-prose h1,
+        .content-prose h2 {
+            font-family: 'Syne', sans-serif;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 40px 0 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .content-prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 0.9rem;
+        }
+
+        .content-prose th {
+            text-align: left;
+            padding: 12px;
+            background: #000;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+        }
+
+        .content-prose td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 0;
+            color: var(--text-dim);
+        }
+
+        #setup-splash {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #setup-splash h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .setup-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 20px 40px;
+            background: var(--accent);
+            color: black;
+            text-decoration: none;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="setup-splash">
+        <h2>ENGINE <span>LOCK</span></h2>
+        <p>Your brand configuration is missing or detected as default.</p>
+        <a href="brand_questionnaire.html" class="setup-btn">Run Onboarding First</a>
+    </div>
+
+    <div class="layout">
+        <aside>
+            <div class="brand-header">
+                <div class="brand-title" id="side-brand-name">YOUR <span>BRAND</span></div>
+                <div class="tagline" id="side-tagline">Define your purpose in the questionnaire</div>
+            </div>
+
+            <div class="section-label">Strategy Focus</div>
+            <p style="font-size: 0.9rem; color: #fff;" id="side-focus">Loading...</p>
+
+            <div class="section-label">Brand Personas</div>
+            <div id="persona-list">
+                <!-- Personas will be injected here -->
+            </div>
+        </aside>
+
+        <main>
+            <nav>
+                <button class="nav-btn active" onclick="showSection('research')">Research Report</button>
+                <button class="nav-btn" onclick="showSection('scripts')">Generated Scripts</button>
+            </nav>
+
+            <div class="content-prose" id="display-area">
+                <div class="empty-state">
+                    Initializing Architecture...
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let config = {};
+
+        async function init() {
+            try {
+                const response = await fetch('brand_config.json');
+                config = await response.json();
+
+                // Check if it's default
+                if (config.brand.name.includes("Your Brand Name")) {
+                    document.getElementById('setup-splash').style.display = 'flex';
+                    return;
+                }
+
+                // Update Sidebar
+                const nameParts = config.brand.name.split(' ');
+                document.getElementById('side-brand-name').innerHTML = `${nameParts[0]} <span>${nameParts.slice(1).join(' ') || 'ENGINE'}</span>`;
+                document.getElementById('side-tagline').textContent = config.brand.tagline;
+                document.getElementById('side-focus').textContent = config.strategy.focus;
+
+                // Update Personas
+                const pList = document.getElementById('persona-list');
+                pList.innerHTML = '';
+                config.personas.forEach(p => {
+                    pList.innerHTML += `
+                        <div class="persona-card">
+                            <div class="persona-name">${p.name}</div>
+                            <div class="persona-desc">${p.description}</div>
+                        </div>
+                    `;
+                });
+
+                showSection('research');
+            } catch (e) {
+                document.getElementById('setup-splash').style.display = 'flex';
+            }
+        }
+
+        async function showSection(type) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().includes(type)));
+
+            const area = document.getElementById('display-area');
+            const file = type === 'research' ? 'viral_content_research.md' : 'content_scripts.md';
+
+            try {
+                const res = await fetch(file);
+                if (!res.ok) throw new Error();
+                const md = await res.text();
+                area.innerHTML = marked.parse(md);
+            } catch (e) {
+                area.innerHTML = `<div class="empty-state">
+                    <h3>No Data Found</h3>
+                    <p>Run <code>execution/viral_research.py</code> then <code>execution/compile_deliverable.py</code> to populate this view.</p>
+                </div>`;
+            }
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
