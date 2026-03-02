@@ -12,7 +12,7 @@
 Content Engine is a dynamic framework designed to help creators and entrepreneurs build a data-driven personal brand. It bridges the gap between **raw social data** and **ready-to-post content scripts** by leveraging AI to analyze what actually works in your niche.
 
 ### Modular Architecture
-![Analysis Preview](docs/assets/dashboard_locked.png)
+![Analysis Preview](docs/assets/analysis_preview.png)
 
 ### Core Features:
 - 🛠️ **Interactive Onboarding**: A custom HTML questionnaire to define your brand identity.
@@ -35,6 +35,14 @@ Content Engine is a dynamic framework designed to help creators and entrepreneur
 ### Strategy Dashboard
 ![Dashboard Locked](docs/assets/dashboard_locked.png)
 *The Dashboard locks until your configuration is finalized.*
+
+### Viral Research Report
+![Viral Research Report](docs/assets/analysis_preview.png)
+*Detailed analysis of viral content across social platforms.*
+
+### AI-Generated Content Scripts
+![Generated Scripts](docs/assets/scripts_preview.png)
+*Personalized scripts mapped to successful viral hooks.*
 
 ---
 
