@@ -274,6 +274,27 @@
             color: var(--accent-purple);
         }
 
+        /* Persona-specific content optimization */
+        .markdown-body a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            word-break: break-all;
+            transition: opacity 0.3s ease;
+        }
+
+        .markdown-body a:hover {
+            opacity: 0.8;
+        }
+
+        .markdown-body blockquote {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 2px solid var(--accent-purple);
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
         /* Loading State Overlay (Premium File Transfer Style) */
         #loadingState {
             display: none;
@@ -506,8 +527,46 @@
             }
 
             .upload-card {
-                width: 90%;
+                width: 95%;
                 padding: 30px 20px;
+            }
+
+            /* Mobile Markdown Content Optimization */
+            .markdown-body h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .markdown-body h2 {
+                font-size: 1.5rem;
+                margin-top: 30px;
+                margin-bottom: 15px;
+            }
+
+            .markdown-body h3 {
+                font-size: 1.2rem;
+                margin-top: 25px;
+                margin-bottom: 10px;
+            }
+
+            .markdown-body p,
+            .markdown-body li {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            .markdown-body blockquote {
+                padding: 15px;
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+
+            .markdown-body ul {
+                margin-bottom: 15px;
+            }
+
+            .markdown-body li {
+                margin-bottom: 8px;
             }
         }
     </style>
