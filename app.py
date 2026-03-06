@@ -1,10 +1,16 @@
 import os
 import json
 import threading
-from flask import Flask, request, jsonify, send_from_directory
+import sys
 
-from execution.mock_webhook import process_tally_webhook
-from execution.main_pipeline import main as run_pipeline
+# Ensure current directory is in path for module resolution
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from flask import Flask, request, jsonify, send_from_directory, Response
+# Flattened structure for Heroku compatibility (Windows/Linux filename issues)
+from mock_webhook import process_tally_webhook
+from main_pipeline import main as run_pipeline
+from supabase_client import get_brand_project
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
@@ -14,7 +20,32 @@ def index():
 
 @app.route('/<path:path>')
 def serve_static(path):
-    # Serve static files (Markdown docs, JSON config, CSS, JS)
+    # If the file exists locally, serve it standard
+    if os.path.exists(path):
+        return send_from_directory('.', path)
+    
+    # Fallback for Markdown docs: fetch from Supabase
+    if path.endswith('.md'):
+        # For simplicity, we fetch the first project or use a hardcoded client_id for now
+        # Ideally, we'd pass client_id in the URL or session.
+        # Here we attempt to find the latest submission.
+        project = get_brand_project("test_client") # Default test ID from mock_webhook
+        if not project:
+            # Try to get any project if test_client fails
+            from supabase_client import get_supabase
+            sb = get_supabase()
+            res = sb.table("brand_projects").select("*").limit(1).execute()
+            if res.data: project = res.data[0]
+            
+        if project:
+            content = ""
+            if path == 'icp.md': content = project.get('icp_markdown', '')
+            elif path == 'personas.md': content = project.get('persona_markdown', '')
+            elif path == 'client_deliverable.md': content = project.get('final_deliverable_markdown', '')
+            
+            if content:
+                return Response(content, mimetype='text/markdown')
+
     return send_from_directory('.', path)
 
 @app.route('/api/webhook', methods=['POST'])

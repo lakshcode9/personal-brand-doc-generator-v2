@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+from supabase_client import upsert_brand_project
 
 def process_tally_webhook(payload_path="sample_tally_payload.json", output_path="client_input.json"):
     """
@@ -48,6 +49,13 @@ def process_tally_webhook(payload_path="sample_tally_payload.json", output_path=
         },
         "status": "pending_icp"
     }
+    
+    # Sync with Supabase (Database Layer)
+    upsert_brand_project(client_input["client_id"], {
+        "contact_info": client_input["contact"],
+        "brand_profile": client_input["brand"],
+        "status": "pending_icp"
+    })
     
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(client_input, f, indent=4)

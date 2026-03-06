@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from groq_client import generate_completion
+from supabase_client import upsert_brand_project
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(SCRIPT_DIR)
@@ -56,6 +57,15 @@ def generate_icp():
         f.write(icp_md)
         
     print(f"✅ ICP generated successfully at {OUTPUT_PATH}")
+    
+    # Sync with Supabase
+    with open(INPUT_PATH, "r", encoding="utf-8") as f:
+        cid = json.load(f)["client_id"]
+        
+    upsert_brand_project(cid, {
+        "icp_markdown": icp_md,
+        "status": "pending_personas"
+    })
 
 if __name__ == "__main__":
     generate_icp()

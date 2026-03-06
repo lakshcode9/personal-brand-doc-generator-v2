@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from groq_client import generate_completion
+from supabase_client import upsert_brand_project
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(SCRIPT_DIR)
@@ -84,6 +85,14 @@ def generate_personas():
     with open(MD_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write("".join(md_lines))
         
+    # Sync with Supabase (Markdown for dashboard + updated JSON profile)
+    persona_md = "".join(md_lines)
+    upsert_brand_project(client_data["client_id"], {
+        "persona_markdown": persona_md,
+        "brand_profile": client_data["brand"], # Updates brand profile with personas
+        "status": "pending_scrapers"
+    })
+    
     print(f"✅ Personas generated and saved to {INPUT_PATH} and {MD_OUTPUT_PATH}")
 
 if __name__ == "__main__":

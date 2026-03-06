@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from groq_client import generate_completion
+from supabase_client import upsert_brand_project
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(SCRIPT_DIR)
@@ -63,6 +64,12 @@ def generate_deliverable():
         f.write(deliverable_md)
         
     print(f"✅ Final Deliverable generated and saved to {MD_OUTPUT_PATH}")
+    
+    # Sync with Supabase
+    upsert_brand_project(client_data["client_id"], {
+        "final_deliverable_markdown": deliverable_md,
+        "status": "complete"
+    })
 
 if __name__ == "__main__":
     generate_deliverable()
