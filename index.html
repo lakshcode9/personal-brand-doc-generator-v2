@@ -274,13 +274,13 @@
             color: var(--accent-purple);
         }
 
-        /* Loading Overlay Overlay */
+        /* Loading State Overlay (Premium File Transfer Style) */
         #loadingState {
             display: none;
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
             z-index: 100;
             display: none;
             align-items: center;
@@ -289,21 +289,98 @@
             border-radius: 32px;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
+        .upload-card {
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 420px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            opacity: 0;
+            animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardEnter {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .file-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            display: block;
+            text-align: center;
+            filter: drop-shadow(0 0 15px var(--accent-purple-glow));
+        }
+
+        .upload-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .upload-size {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 35px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            width: 100%;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .mini-spinner {
+            width: 14px;
+            height: 14px;
             border: 2px solid var(--accent-purple);
             border-top-color: transparent;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
-        .loading-text {
+        .progress-percent {
             font-family: 'Outfit', sans-serif;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 20px;
-            font-size: 0.8rem;
+            font-size: 1.6rem;
+            font-weight: 300;
+        }
+
+        .progress-track {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--text-primary);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            transition: width 0.4s cubic-bezier(0.1, 0.5, 0.5, 1);
         }
 
         @keyframes spin {
@@ -391,8 +468,24 @@
             <main>
                 <div class="strategy-card" id="cardContainer">
                     <div id="loadingState">
-                        <div class="spinner"></div>
-                        <div class="loading-text" id="loadingLabel">Synthesizing...</div>
+                        <div class="upload-card">
+                            <div class="file-icon">📄</div>
+                            <div class="upload-title" id="loadingTitle">ACCESSING DATA</div>
+                            <div class="upload-size">Personal Brand Engine v3.1</div>
+
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <div class="progress-label">
+                                        <div class="mini-spinner"></div>
+                                        Decrypting...
+                                    </div>
+                                    <div class="progress-percent" id="loadingPercent">0%</div>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-bar" id="loadingBar"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="markdown-body" id="mdContent">
@@ -408,17 +501,33 @@
         async function switchTab(tabId) {
             // UI updates
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+            const activeNav = document.querySelector(`[data-tab="${tabId}"]`);
+            if (activeNav) activeNav.classList.add('active');
 
-            const card = document.getElementById('cardContainer');
             const mdArea = document.getElementById('mdContent');
             const loader = document.getElementById('loadingState');
+            const bar = document.getElementById('loadingBar');
+            const pct = document.getElementById('loadingPercent');
 
-            // Fade Out
+            // Reset and Show Loader
             mdArea.style.opacity = '0';
             mdArea.style.transform = 'translateY(10px)';
             loader.style.display = 'flex';
-            document.getElementById('loadingLabel').textContent = `ACCESSING ${tabId.toUpperCase()}...`;
+            bar.style.width = '0%';
+            pct.textContent = '0%';
+            document.getElementById('loadingTitle').textContent = `UPDATING ${tabId.toUpperCase()}`;
+
+            // Simulated Progress Animation
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.floor(Math.random() * 10) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                }
+                bar.style.width = progress + '%';
+                pct.textContent = progress + '%';
+            }, 50);
 
             // Wait a bit for "synthesizing" effect
             setTimeout(async () => {
@@ -427,7 +536,7 @@
                 mdArea.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
                 mdArea.style.opacity = '1';
                 mdArea.style.transform = 'translateY(0)';
-            }, 600);
+            }, 800);
         }
 
         async function loadContent(tabId) {
