@@ -46,6 +46,18 @@ def serve_static(path):
             if content:
                 return Response(content, mimetype='text/markdown')
 
+    # Fallback for client_input.json
+    if path == 'client_input.json':
+        project = get_brand_project("test_client")
+        if project:
+            # Reconstruction of the structure for frontend
+            client_input = {
+                "brand": project.get("brand_profile", {}),
+                "contact": project.get("contact_info", {}),
+                "status": project.get("status", "unknown")
+            }
+            return jsonify(client_input)
+
     return send_from_directory('.', path)
 
 @app.route('/api/webhook', methods=['POST'])
