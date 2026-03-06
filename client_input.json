@@ -1,0 +1,74 @@
+{
+    "client_id": "sub_tally_999",
+    "contact": {
+        "first_name": "Alex",
+        "last_name": "Rivera",
+        "email": "alex@freedomfounder.co",
+        "phone": "+1 555-0199"
+    },
+    "brand": {
+        "name": "Alex Rivera",
+        "niche": "Service/Agency",
+        "target_audience": "E-commerce store owners making $10k-$50k/month",
+        "current_sales_process": "Mainly cold email and organic Instagram. Sometimes referrals.",
+        "ltv": "$1,500 initial, ~$8,000 lifetime",
+        "core_offer": "We build automated email marketing flows that recover 20% of abandoned carts and increase LTV without ad spend.",
+        "cac": "Roughly $300 right now.",
+        "lead_gen": "Sending 500 cold emails a day and posting 3 reels a week.",
+        "closing_mech": "Usually a 30-min Zoom discovery call and then a proposal.",
+        "delivery": "We have a Slack channel, onboard them in 48 hours, and push the first flows live in 7 days.",
+        "retention": "About 6-8 months on average.",
+        "goals": "Hit $100k MRR ($1.2M run rate) with 60% margins.",
+        "bottleneck": "Leads. We have a great offer but no predictable inbound mechanism.",
+        "investment": "I can invest 10 hours a week and $2,000/month.",
+        "current_mrr": "$15k MRR, about $8k profit.",
+        "brand_tone": "Authoritative, insightful, actionable"
+    },
+    "status": "pending_icp",
+    "personas": [
+        {
+            "id": "persona_1",
+            "name": "E-commerce Entrepreneur",
+            "description": "Ambitious e-commerce store owner seeking to optimize email marketing and increase customer lifetime value",
+            "youtube_keywords": [
+                "email marketing strategy",
+                "e-commerce optimization",
+                "abandoned cart recovery",
+                "customer lifetime value increase"
+            ],
+            "instagram_hashtags": [
+                "ecommercebusiness",
+                "emailmarketingtips",
+                "onlinestoreowner",
+                "digitalmarketingstrategy"
+            ],
+            "linkedin_profiles": [
+                "https://www.linkedin.com/in/grantcardone/",
+                "https://www.linkedin.com/in/neilpatel/",
+                "https://www.linkedin.com/in/mari smith/"
+            ]
+        },
+        {
+            "id": "persona_2",
+            "name": "Growth-Oriented Store Owner",
+            "description": "Growth-oriented e-commerce store owner looking to scale their business and stay competitive",
+            "youtube_keywords": [
+                "e-commerce growth hacking",
+                "email marketing automation",
+                "customer retention strategies",
+                "competitive advantage in e-commerce"
+            ],
+            "instagram_hashtags": [
+                "growthhacking",
+                "ecommercegrowth",
+                "emailmarketingautomation",
+                "customerretention"
+            ],
+            "linkedin_profiles": [
+                "https://www.linkedin.com/in/garyvaynerchuk/",
+                "https://www.linkedin.com/in/chrisbrogan/",
+                "https://www.linkedin.com/in/digitalsax/"
+            ]
+        }
+    ]
+}

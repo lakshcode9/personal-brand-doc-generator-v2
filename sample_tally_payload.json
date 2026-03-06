@@ -1,0 +1,24 @@
+{
+  "submissionId": "sub_tally_999",
+  "submittedAt": "2026-03-06T15:00:00Z",
+  "fields": {
+    "First Name": "Alex",
+    "Last Name": "Rivera",
+    "Email": "alex@freedomfounder.co",
+    "Phone": "+1 555-0199",
+    "What do you sell?": "Service/Agency",
+    "Who's your customer?": "E-commerce store owners making $10k-$50k/month",
+    "How do you sell right now?": "Mainly cold email and organic Instagram. Sometimes referrals.",
+    "What's your average customer value (first purchase + lifetime)?": "$1,500 initial, ~$8,000 lifetime",
+    "Explain your Offer or service?": "We build automated email marketing flows that recover 20% of abandoned carts and increase LTV without ad spend.",
+    "What's your customer acquisition cost (if you know it)?": "Roughly $300 right now.",
+    "How do you currently get leads?": "Sending 500 cold emails a day and posting 3 reels a week.",
+    "How do you close them? (Call, email, checkout page, DMs, etc.)": "Usually a 30-min Zoom discovery call and then a proposal.",
+    "Once a customer buys, how do you deliver?": "We have a Slack channel, onboard them in 48 hours, and push the first flows live in 7 days.",
+    "How long do they typically stick with you?": "About 6-8 months on average.",
+    "What's your 12-month revenue/profit goal?": "Hit $100k MRR ($1.2M run rate) with 60% margins.",
+    "What's your biggest bottleneck right now? (Leads, sales, delivery, profit)": "Leads. We have a great offer but no predictable inbound mechanism.",
+    "How much cash/time can you invest to fix this?": "I can invest 10 hours a week and $2,000/month.",
+    "What's your current monthly revenue and profit?": "$15k MRR, about $8k profit."
+  }
+}

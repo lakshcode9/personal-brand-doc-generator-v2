@@ -4,21 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Engine // Architecture Dashboard</title>
+    <title>3h Creator - Client Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Syne:wght@700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
-            --bg: #0a0a0b;
-            --surface: #141416;
-            --accent: #ceff00;
+            /* 3h Creator Theme Variables */
+            --bg-color: #030b17;
+            /* Deep Navy Black */
+            --card-bg: rgba(16, 28, 48, 0.6);
+            --card-border: rgba(64, 112, 192, 0.2);
+            --accent-glow: rgba(43, 110, 255, 0.5);
+            --accent-solid: #407afc;
             --text-main: #ffffff;
-            --text-dim: #88888e;
-            --border: #2a2a2e;
-            --grid-size: 40px;
+            --text-dim: #94a3b8;
         }
 
         * {
@@ -28,304 +29,518 @@
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-color);
             color: var(--text-main);
             font-family: "Outfit", sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(to right, var(--border) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-            background-size: var(--grid-size) var(--grid-size);
-            mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
-            z-index: -1;
-            opacity: 0.2;
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            min-height: 100vh;
-        }
-
-        /* Sidebar Sidebar */
-        aside {
-            background: rgba(10, 10, 11, 0.95);
-            border-right: 1px solid var(--border);
-            padding: 40px;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-            backdrop-filter: blur(20px);
-        }
-
-        .brand-header {
-            margin-bottom: 40px;
-        }
-
-        .brand-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            line-height: 0.8;
-            letter-spacing: -0.05em;
-        }
-
-        .brand-title span {
-            color: var(--accent);
-            display: block;
-        }
-
-        .tagline {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-top: 15px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 20px;
-        }
-
-        .section-label {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: var(--accent);
-            letter-spacing: 0.3em;
-            margin: 30px 0 15px;
-        }
-
-        .persona-card {
-            background: var(--surface);
-            padding: 20px;
-            border: 1px solid var(--border);
-            margin-bottom: 15px;
-        }
-
-        .persona-name {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .persona-desc {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            line-height: 1.4;
-        }
-
-        /* Main Content */
-        main {
-            padding: 40px 60px;
-        }
-
-        nav {
             display: flex;
-            gap: 15px;
-            margin-bottom: 40px;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px;
         }
 
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--border);
+        /* Ambient Glow Behind Content */
+        .ambient-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.8;
+            filter: blur(80px);
+        }
+
+        /* Glassmorphism Card Container */
+        .dashboard-container {
+            position: relative;
+            z-index: 10;
+            background: var(--card-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 700px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .client-info h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .client-info p {
             color: var(--text-dim);
-            padding: 12px 25px;
-            font-family: 'Syne', sans-serif;
-            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .status-badge {
+            background: rgba(64, 122, 252, 0.1);
+            color: var(--accent-solid);
+            border: 1px solid rgba(64, 122, 252, 0.3);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-solid);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-solid);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Layout */
+        .dashboard-body {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            flex: 1;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            border-right: 1px solid var(--card-border);
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-dim);
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
         }
 
-        .nav-btn.active {
-            border-color: var(--accent);
-            color: var(--bg);
-            background: var(--accent);
+        .nav-item:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .content-prose {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 50px;
+        .nav-item.active {
+            background: var(--accent-solid);
+            color: white;
+            box-shadow: 0 4px 15px rgba(64, 122, 252, 0.4);
+        }
+
+        /* Main Viewing Area */
+        main {
+            padding: 40px;
+            overflow-y: auto;
+            max-height: calc(700px - 85px);
+        }
+
+        /* Loading State (File Transfer UI from inspiration) */
+        .loading-state {
+            display: none;
+            /* Toggled via JS */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .upload-card {
+            background: rgba(16, 28, 48, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            width: 380px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             position: relative;
         }
 
-        .content-prose h1,
-        .content-prose h2 {
-            font-family: 'Syne', sans-serif;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin: 40px 0 20px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-        }
-
-        .content-prose table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-            font-size: 0.9rem;
-        }
-
-        .content-prose th {
-            text-align: left;
-            padding: 12px;
-            background: #000;
-            color: var(--accent);
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-        }
-
-        .content-prose td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-dim);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 100px 0;
-            color: var(--text-dim);
-        }
-
-        #setup-splash {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            z-index: 9999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        #setup-splash h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: 3rem;
+        .file-icon {
+            font-size: 4rem;
             margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px var(--accent-glow));
         }
 
-        .setup-btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 20px 40px;
-            background: var(--accent);
-            color: black;
-            text-decoration: none;
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
+        .upload-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .upload-size {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+        }
+
+        .progress-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-label {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--text-dim);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .progress-percent {
+            font-size: 1.8rem;
+            font-weight: 300;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 0 10px white;
+            transition: width 0.5s ease;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Markdown Styling inside Main */
+        .markdown-body h1 {
+            font-size: 2rem;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5rem;
+            margin: 30px 0 16px;
+            font-weight: 600;
+            color: var(--accent-solid);
+        }
+
+        .markdown-body h3 {
+            font-size: 1.2rem;
+            margin: 24px 0 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 16px;
+            line-height: 1.7;
+            color: var(--text-dim);
+        }
+
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+            color: var(--text-dim);
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body strong {
+            color: white;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-solid);
+            padding-left: 16px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
         }
     </style>
 </head>
 
 <body>
-    <div id="setup-splash">
-        <h2>ENGINE <span>LOCK</span></h2>
-        <p>Your brand configuration is missing or detected as default.</p>
-        <a href="brand_questionnaire.html" class="setup-btn">Run Onboarding First</a>
-    </div>
 
-    <div class="layout">
-        <aside>
-            <div class="brand-header">
-                <div class="brand-title" id="side-brand-name">YOUR <span>BRAND</span></div>
-                <div class="tagline" id="side-tagline">Define your purpose in the questionnaire</div>
+    <div class="ambient-glow"></div>
+
+    <div class="dashboard-container">
+
+        <!-- Header -->
+        <header>
+            <div class="client-info">
+                <h1 id="clientName">Your Brand</h1>
+                <p id="clientNiche">Waiting for Tally Webhook...</p>
             </div>
 
-            <div class="section-label">Strategy Focus</div>
-            <p style="font-size: 0.9rem; color: #fff;" id="side-focus">Loading...</p>
-
-            <div class="section-label">Brand Personas</div>
-            <div id="persona-list">
-                <!-- Personas will be injected here -->
-            </div>
-        </aside>
-
-        <main>
-            <nav>
-                <button class="nav-btn active" onclick="showSection('research')">Research Report</button>
-                <button class="nav-btn" onclick="showSection('scripts')">Generated Scripts</button>
-            </nav>
-
-            <div class="content-prose" id="display-area">
-                <div class="empty-state">
-                    Initializing Architecture...
+            <div style="display: flex; gap: 16px; align-items: center;">
+                <button id="btnGenerateDummy"
+                    style="background: rgba(64, 122, 252, 0.1); border: 1px solid var(--accent-solid); color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 600; transition: all 0.3s ease;">
+                    ⚡ Test Pipeline (Dummy Data)
+                </button>
+                <div class="status-badge" id="systemStatus">
+                    <div class="status-dot"></div>
+                    Awaiting Input
                 </div>
             </div>
-        </main>
+        </header>
+
+        <!-- Body -->
+        <div class="dashboard-body">
+
+            <!-- Sidebar -->
+            <aside>
+                <ul class="nav-menu">
+                    <li class="nav-item active" onclick="switchTab('icp')">1. Target ICP</li>
+                    <li class="nav-item" onclick="switchTab('personas')">2. Research Personas</li>
+                    <li class="nav-item" onclick="switchTab('research')">3. Content Research</li>
+                    <li class="nav-item" onclick="switchTab('deliverable')">4. Final Output & Scripts</li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main id="mainContent">
+
+                <!-- Loading State Interface -->
+                <div class="loading-state" id="loadingState">
+                    <div class="upload-card">
+                        <div class="file-icon">📄</div>
+                        <div class="upload-title" id="loadingTitle">Compiling Strategy.json</div>
+                        <div class="upload-size">AI Pipeline Running</div>
+
+                        <div class="progress-container">
+                            <div class="progress-header">
+                                <div class="progress-label">
+                                    <div class="spinner"></div>
+                                    Processing...
+                                </div>
+                                <div class="progress-percent" id="loadingPercent">0%</div>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-bar" id="loadingBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Markdown Content Container -->
+                <div class="markdown-body" id="mdContent"></div>
+
+            </main>
+        </div>
     </div>
 
     <script>
-        let config = {};
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Update active state
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
 
-        async function init() {
-            try {
-                const response = await fetch('brand_config.json');
-                config = await response.json();
+            // Hide content, show loading
+            document.getElementById('mdContent').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'flex';
+            document.getElementById('loadingTitle').textContent = `Fetching ${tabId}...`;
 
-                // Check if it's default
-                if (config.brand.name.includes("Your Brand Name")) {
-                    document.getElementById('setup-splash').style.display = 'flex';
-                    return;
+            // Re-trigger animation
+            let progress = 0;
+            const bar = document.getElementById('loadingBar');
+            const pct = document.getElementById('loadingPercent');
+            bar.style.width = '0%';
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 10) + 5;
+                if (progress > 100) progress = 100;
+                bar.style.width = progress + '%';
+                pct.textContent = progress + '%';
+
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadContent(tabId);
+                    }, 400);
                 }
-
-                // Update Sidebar
-                const nameParts = config.brand.name.split(' ');
-                document.getElementById('side-brand-name').innerHTML = `${nameParts[0]} <span>${nameParts.slice(1).join(' ') || 'ENGINE'}</span>`;
-                document.getElementById('side-tagline').textContent = config.brand.tagline;
-                document.getElementById('side-focus').textContent = config.strategy.focus;
-
-                // Update Personas
-                const pList = document.getElementById('persona-list');
-                pList.innerHTML = '';
-                config.personas.forEach(p => {
-                    pList.innerHTML += `
-                        <div class="persona-card">
-                            <div class="persona-name">${p.name}</div>
-                            <div class="persona-desc">${p.description}</div>
-                        </div>
-                    `;
-                });
-
-                showSection('research');
-            } catch (e) {
-                document.getElementById('setup-splash').style.display = 'flex';
-            }
+            }, 100);
         }
 
-        async function showSection(type) {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().includes(type)));
+        async function loadContent(tabId) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('mdContent').style.display = 'block';
 
-            const area = document.getElementById('display-area');
-            const file = type === 'research' ? 'viral_content_research.md' : 'content_scripts.md';
+            // Map tab to file
+            const fileMap = {
+                'icp': 'icp.md',
+                'personas': 'personas.md',
+                'research': 'viral_content_research.md',
+                'deliverable': 'client_deliverable.md'
+            };
+
+            const file = fileMap[tabId];
 
             try {
                 const res = await fetch(file);
                 if (!res.ok) throw new Error();
                 const md = await res.text();
-                area.innerHTML = marked.parse(md);
+                document.getElementById('mdContent').innerHTML = marked.parse(md);
             } catch (e) {
-                area.innerHTML = `<div class="empty-state">
-                    <h3>No Data Found</h3>
-                    <p>Run <code>execution/viral_research.py</code> then <code>execution/compile_deliverable.py</code> to populate this view.</p>
-                </div>`;
+                document.getElementById('mdContent').innerHTML = `
+                    <div style="text-align: center; color: #94a3b8; padding-top: 100px;">
+                        <h2>Pipeline execution required.</h2>
+                        <p>File <code>${file}</code> not found. Ensure the AI scripts have run successfully.</p>
+                    </div>
+                `;
             }
         }
 
-        init();
+        // Initialize by loading the client data if present
+        async function fetchClientData() {
+            try {
+                const res = await fetch('/client_input.json');
+                const data = await res.json();
+                document.getElementById('clientName').textContent = data.brand.name;
+                document.getElementById('clientNiche').textContent = data.brand.niche;
+
+                // Set green status if ready
+                const badge = document.getElementById('systemStatus');
+                badge.innerHTML = `<div class="status-dot" style="background:#22c55e; box-shadow:0 0 10px #22c55e;"></div> Setup Complete`;
+                badge.style.color = '#22c55e';
+                badge.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+                badge.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+            } catch (e) {
+                console.log("No client_input.json found yet.");
+            }
+        }
+
+        // Dummy Data Generator Logic
+        document.getElementById('btnGenerateDummy').addEventListener('click', async () => {
+            const btn = document.getElementById('btnGenerateDummy');
+            const badge = document.getElementById('systemStatus');
+
+            btn.innerHTML = '⚙️ Pipeline Running...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            badge.innerHTML = `<div class="status-dot"></div> Processing AI`;
+            badge.style.color = 'var(--accent-solid)';
+            badge.style.borderColor = 'rgba(64, 122, 252, 0.3)';
+            badge.style.backgroundColor = 'rgba(64, 122, 252, 0.1)';
+
+            try {
+                const res = await fetch('/api/generate-dummy', { method: 'POST' });
+                const json = await res.json();
+                console.log(json.message);
+
+                // Poll for completion by checking if deliverable exists
+                let checkInterval = setInterval(async () => {
+                    try {
+                        const checkRes = await fetch('/client_deliverable.md', { method: 'HEAD' });
+                        if (checkRes.ok) {
+                            clearInterval(checkInterval);
+                            btn.innerHTML = '✅ Pipeline Finished';
+                            btn.style.background = '#22c55e';
+                            btn.style.borderColor = '#22c55e';
+                            fetchClientData();
+                            document.querySelector('.nav-item').click(); // Reload first tab
+                        }
+                    } catch (e) { }
+                }, 5000);
+            } catch (e) {
+                alert("Error calling Flask backend: " + e);
+            }
+        });
+
+        // Run on load
+        fetchClientData();
+        // Start by defaulting to ICP tab (by simulating a click on the first link)
+        document.querySelector('.nav-item').click();
+
     </script>
 </body>
 
