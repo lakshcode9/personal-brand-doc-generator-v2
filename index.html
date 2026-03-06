@@ -413,14 +413,101 @@
             }
         }
 
-        /* Responsive */
+        /* Mobile-First Transitions */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Burger Menu Styling */
+        .burger-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .burger-line {
+            width: 20px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
             .app-wrapper {
                 grid-template-columns: 1fr;
             }
 
             aside {
-                display: none;
+                position: fixed;
+                left: -100%;
+                z-index: 999;
+                width: 280px;
+                transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            aside.open {
+                left: 0;
+            }
+
+            .sidebar-overlay.open {
+                display: block;
+                opacity: 1;
+            }
+
+            .burger-btn {
+                display: flex;
+            }
+
+            .burger-btn.open .burger-line:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+
+            .burger-btn.open .burger-line:nth-child(2) {
+                opacity: 0;
+            }
+
+            .burger-btn.open .burger-line:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+
+            .content-container {
+                padding: 30px 20px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .client-branding h1 {
+                font-size: 2.2rem;
+            }
+
+            .strategy-card {
+                padding: 30px 20px;
+            }
+
+            .upload-card {
+                width: 90%;
+                padding: 30px 20px;
             }
         }
     </style>
@@ -428,11 +515,10 @@
 
 <body>
 
-    <div class="ambient-orb orb-top-right"></div>
-    <div class="ambient-orb orb-bottom-left"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
 
     <div class="app-wrapper">
-        <aside>
+        <aside id="sidebar">
             <div class="logo-container">3h<span>.Creator</span></div>
 
             <ul class="nav-menu">
@@ -454,14 +540,20 @@
 
         <div class="content-container">
             <header>
-                <div class="client-branding">
-                    <h1 id="clientName">Elite Strategy</h1>
-                    <p id="clientNiche">Content Alpha Engine v3.1</p>
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <div class="client-branding">
+                        <h1 id="clientName">Elite Strategy</h1>
+                        <p id="clientNiche">Content Alpha Engine v3.1</p>
+                    </div>
+                    <button class="burger-btn" onclick="toggleMenu()" id="burgerBtn">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </button>
                 </div>
 
-                <div style="display: flex; gap: 15px;">
-                    <button class="btn-action" id="btnGenerateDummy">⚡ Generate Flow</button>
-                    <!-- Small Menu Toggle for Mobile if needed -->
+                <div style="display: flex; gap: 15px; width: 100%;">
+                    <button class="btn-action" id="btnGenerateDummy" style="flex: 1;">⚡ Generate Flow</button>
                 </div>
             </header>
 
@@ -497,8 +589,23 @@
     </div>
 
     <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const burger = document.getElementById('burgerBtn');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            burger.classList.toggle('open');
+        }
+
         // Smooth Tab Switching with Transitions
         async function switchTab(tabId) {
+            // Close mobile menu if open
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar.classList.contains('open')) toggleMenu();
+            }
+
             // UI updates
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             const activeNav = document.querySelector(`[data-tab="${tabId}"]`);
@@ -554,10 +661,11 @@
                 if (!res.ok) throw new Error();
                 const md = await res.text();
                 document.getElementById('mdContent').innerHTML = marked.parse(md);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (e) {
                 document.getElementById('mdContent').innerHTML = `
-                    <div style="text-align: center; padding: 100px 0;">
-                        <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; margin-bottom: 20px;">Data Void Detected.</h2>
+                    <div style="text-align: center; padding: 60px 0;">
+                        <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 20px;">Data Void Detected.</h2>
                         <p style="color: var(--text-secondary);">The engine requires a primary intake flow to generate this segment.</p>
                         <button class="btn-action" style="margin-top: 30px;" onclick="document.getElementById('btnGenerateDummy').click()">Initialize Engine</button>
                     </div>
